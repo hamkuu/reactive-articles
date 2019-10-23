@@ -15,6 +15,8 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
 import ArticlesList from './components/Tabs/Home/ArticlesList';
+import ComposeArticleForm from './components/Tabs/ComposeArticle/ComposeArticleForm';
+
 import LoginPage from './components/Account/LoginPage';
 
 import './App.css';
@@ -26,6 +28,7 @@ function AppLayout() {
 
       <main>
         <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/newarticle' component={ComposeArticleForm} />
 
         <Route exact path='/' component={ArticlesList} />
       </main>

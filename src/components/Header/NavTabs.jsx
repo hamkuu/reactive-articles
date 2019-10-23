@@ -26,8 +26,8 @@ export default function NavTabs() {
         classes={{ indicator: classes.indicator }}
         value={false}
       >
-        <TabButton buttonText='Home' url='/' />
-        <TabButton buttonText='Write' url='/write' />
+        <TabButton buttonText='Articles List' url='/' />
+        <TabButton buttonText='New an Article' url='/newarticle' />
       </Tabs>
     </>
   );
