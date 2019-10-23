@@ -82,6 +82,21 @@ class ComposeArticleForm extends React.Component {
       });
       return;
     }
+
+    fetch(`${process.env.REACT_APP_API_URL_BASE}/api/v1/articles`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        article: {
+          author: 'author_react',
+          title: title,
+          content: content,
+        },
+      }),
+    });
   }
 
   render() {
