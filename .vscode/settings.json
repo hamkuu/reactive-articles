@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "editor.fontSize": 11,
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "boundary",
+
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  "prettier.eslintIntegration": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "prettier.stylelintIntegration": true,
+  "prettier.trailingComma": "es5"
+}
