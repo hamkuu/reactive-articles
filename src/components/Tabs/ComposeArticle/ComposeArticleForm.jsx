@@ -39,6 +39,7 @@ class ComposeArticleForm extends React.Component {
       content: '',
       hasTitleInputError: false,
       hasContentInputError: false,
+      hasSubmitted: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -97,6 +98,10 @@ class ComposeArticleForm extends React.Component {
         },
       }),
     });
+
+    this.setState({
+      hasSubmitted: true,
+    });
   }
 
   render() {
@@ -105,8 +110,13 @@ class ComposeArticleForm extends React.Component {
       content,
       hasTitleInputError,
       hasContentInputError,
+      hasSubmitted,
     } = this.state;
     const { classes } = this.props;
+
+    if (hasSubmitted) {
+      return <h2>submitted.</h2>;
+    }
 
     return (
       <React.Fragment>
