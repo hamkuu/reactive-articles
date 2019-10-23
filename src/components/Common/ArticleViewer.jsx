@@ -22,8 +22,9 @@ class ArticlesViewer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
+      responseStatus: false,
       isLoaded: false,
+      isDeleted: false,
       articleID: this.props.match.params.id,
       article: [],
     };
@@ -32,33 +33,53 @@ class ArticlesViewer extends React.Component {
   fetchArticleData(id) {
     fetch(`${process.env.REACT_APP_API_URL_BASE}/api/v1/articles/${id}`)
       .then(res => res.json())
-      .then(
-        result => {
-          console.log(result['article']);
-          this.setState({
-            isLoaded: true,
-            article: result['article'],
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        error => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
+      .then(result => {
+        this.setState({
+          responseStatus: result['status'],
+          isLoaded: true,
+          article: result['article'],
+        });
+      });
+  }
+
+  removeArticle(id) {
+    const requestOptions = {
+      method: 'DELETE',
+    };
+
+    fetch(
+      `${process.env.REACT_APP_API_URL_BASE}/api/v1/articles/${id}`,
+      requestOptions
+    ).then(response => {
+      if (response.ok) {
+        this.setState({
+          isDeleted: true,
+        });
+      }
+    });
   }
 
   render() {
     const { classes } = this.props;
-    const { isLoaded, articleID, article } = this.state;
+    const {
+      responseStatus,
+      isLoaded,
+      isDeleted,
+      articleID,
+      article,
+    } = this.state;
 
     if (!isLoaded) {
       this.fetchArticleData(articleID);
       return <h2>fetch article with ID {articleID}...</h2>;
+    }
+
+    if (!responseStatus) {
+      return <h2>Article not found.</h2>;
+    }
+
+    if (isDeleted) {
+      return <h2>article with ID {articleID} has been removed.</h2>;
     }
 
     return (
@@ -72,10 +93,22 @@ class ArticlesViewer extends React.Component {
             <Typography>{article['content']}</Typography>
           </CardContent>
           <CardActions>
-            <Button size='small' color='primary'>
+            <Button
+              size='small'
+              color='primary'
+              onClick={() => {
+                console.log('onClick Edit');
+              }}
+            >
               Edit
             </Button>
-            <Button size='small' color='primary'>
+            <Button
+              size='small'
+              color='primary'
+              onClick={() => {
+                this.removeArticle(articleID);
+              }}
+            >
               Delete
             </Button>
           </CardActions>
