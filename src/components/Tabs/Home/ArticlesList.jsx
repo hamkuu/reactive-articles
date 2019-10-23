@@ -65,11 +65,11 @@ class ArticlesList extends React.Component {
 
     const GalleryGrid = () => (
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid spacing={2} xs={12}>
+        <Grid item xs={12}>
           {response.map(article => (
             <ArticleInstance
               key={article.id}
-              id={article.id}
+              id={article.id.toString()}
               title={article.title}
               author={article.author}
               content={article.content}
