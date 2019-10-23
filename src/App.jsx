@@ -11,14 +11,21 @@ import {
 import AppErrorBoundary from './components/Common/AppErrorBoundary';
 import hasAuthenticatedContext from './components/Account/AuthenticationContext';
 
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+
 import './App.css';
 
 function AppLayout() {
   return (
     <>
+      <Route path='/' component={Header} />
+
       <main>
         <h1>react apps</h1>
       </main>
+
+      <Route path='/' component={Footer} />
     </>
   );
 }
