@@ -14,6 +14,8 @@ import hasAuthenticatedContext from './components/Account/AuthenticationContext'
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+import LoginPage from './components/Account/LoginPage';
+
 import './App.css';
 
 function AppLayout() {
@@ -22,7 +24,7 @@ function AppLayout() {
       <Route path='/' component={Header} />
 
       <main>
-        <h1>react apps</h1>
+        <Route exact path='/login' component={LoginPage} />
       </main>
 
       <Route path='/' component={Footer} />
