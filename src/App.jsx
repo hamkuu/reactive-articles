@@ -9,6 +9,8 @@ import {
 } from './helpers/universalCookie';
 
 import AppErrorBoundary from './components/Common/AppErrorBoundary';
+import ArticleViewer from './components/Common/ArticleViewer';
+
 import hasAuthenticatedContext from './components/Account/AuthenticationContext';
 
 import Header from './components/Header/Header';
@@ -29,6 +31,7 @@ function AppLayout() {
       <main>
         <Route exact path='/login' component={LoginPage} />
         <Route exact path='/newarticle' component={ComposeArticleForm} />
+        <Route path='/articles/:id' component={ArticleViewer} />
 
         <Route exact path='/' component={ArticlesList} />
       </main>
