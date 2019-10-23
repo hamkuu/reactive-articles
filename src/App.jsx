@@ -1,26 +1,76 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense } from 'react';
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import {
+  saveIsLoggedInCookie,
+  isLoggedInCookie,
+  clearIsLoggedInCookie,
+} from './helpers/universalCookie';
+
+import AppErrorBoundary from './components/Common/AppErrorBoundary';
+import hasAuthenticatedContext from './components/Account/AuthenticationContext';
+
 import './App.css';
 
-function App() {
+function AppLayout() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code> src / App.js </code> and save to reload.{' '}
-        </p>{' '}
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React{' '}
-        </a>{' '}
-      </header>{' '}
-    </div>
+    <>
+      <main>
+        <h1>react apps</h1>
+      </main>
+    </>
   );
 }
 
-export default App;
+function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Suspense fallback={<div>Loading...</div>}>
+          <AppLayout />
+        </Suspense>
+      </Switch>
+    </BrowserRouter>
+  );
+}
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.setAppLogInState = () => {
+      saveIsLoggedInCookie();
+      this.setState({ isLoggedIn: true });
+    };
+
+    this.setAppLogOutState = () => {
+      clearIsLoggedInCookie();
+      this.setState({ isLoggedIn: false });
+    };
+
+    this.state = {
+      isLoggedIn: isLoggedInCookie(),
+      setAppLogInState: this.setAppLogInState,
+      setAppLogOutState: this.setAppLogOutState,
+    };
+  }
+
+  render() {
+    const { isLoggedIn, setAppLogInState, setAppLogOutState } = this.state;
+
+    return (
+      <AppErrorBoundary>
+        <hasAuthenticatedContext.Provider
+          value={{
+            isLoggedIn,
+            setAppLogInState,
+            setAppLogOutState,
+          }}
+        >
+          <AppRouter />
+        </hasAuthenticatedContext.Provider>
+      </AppErrorBoundary>
+    );
+  }
+}
