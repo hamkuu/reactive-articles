@@ -68,6 +68,7 @@ class ArticlesViewer extends React.Component {
       articleID,
       article,
     } = this.state;
+    const editArticleURL = `/editarticles/${articleID}`;
 
     if (!isLoaded) {
       this.fetchArticleData(articleID);
@@ -93,13 +94,7 @@ class ArticlesViewer extends React.Component {
             <Typography>{article['content']}</Typography>
           </CardContent>
           <CardActions>
-            <Button
-              size='small'
-              color='primary'
-              onClick={() => {
-                console.log('onClick Edit');
-              }}
-            >
+            <Button size='small' color='primary' href={editArticleURL}>
               Edit
             </Button>
             <Button

@@ -10,6 +10,7 @@ import {
 
 import AppErrorBoundary from './components/Common/AppErrorBoundary';
 import ArticleViewer from './components/Common/ArticleViewer';
+import ArticleEditor from './components/Common/ArticleEditor';
 
 import hasAuthenticatedContext from './components/Account/AuthenticationContext';
 
@@ -31,6 +32,7 @@ function AppLayout() {
       <main>
         <Route exact path='/login' component={LoginPage} />
         <Route exact path='/newarticle' component={ComposeArticleForm} />
+        <Route path='/editarticles/:id' component={ArticleEditor} />
         <Route path='/articles/:id' component={ArticleViewer} />
 
         <Route exact path='/' component={ArticlesList} />
