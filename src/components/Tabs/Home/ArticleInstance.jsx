@@ -23,26 +23,27 @@ const useStyles = makeStyles(() => ({
 export default function ArticleInstance(props) {
   const classes = useStyles();
   const { id, author, title, content } = props;
+  const articleURL = `/articles/${id}`;
 
   return (
-    <React.Fragment>
+    <>
       <Grid item key={id}>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant='h5' component='h2'>
               {title}
             </Typography>
-            <Typography>{author}</Typography>
+            <Typography>by {author}</Typography>
             <Typography>{content}</Typography>
           </CardContent>
           <CardActions>
-            <Button size='small' color='primary'>
-              Edit
+            <Button size='small' color='primary' href={articleURL}>
+              View
             </Button>
           </CardActions>
         </Card>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }
 
