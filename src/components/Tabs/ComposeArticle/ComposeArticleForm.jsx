@@ -41,14 +41,17 @@ class ComposeArticleForm extends React.Component {
     this.state = {
       isLoggedIn: false,
       hasCurrentUserLoaded: false,
+      author: '',
       title: '',
       content: '',
+      hasAuthorInputError: false,
       hasTitleInputError: false,
       hasContentInputError: false,
       hasSubmitted: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAuthorChange = this.handleAuthorChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
   }
@@ -72,7 +75,7 @@ class ComposeArticleForm extends React.Component {
           console.log(response);
           this.setState({
             hasCurrentUserLoaded: true,
-            profileData: response,
+            author: response['user_info']['name'],
             errorMessage: null,
           });
         } else {
@@ -83,6 +86,13 @@ class ComposeArticleForm extends React.Component {
           });
         }
       });
+  }
+
+  handleAuthorChange(event) {
+    this.setState({
+      hasAuthorInputError: false,
+      author: event.target.value,
+    });
   }
 
   handleTitleChange(event) {
@@ -102,7 +112,7 @@ class ComposeArticleForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { title, content, profileData } = this.state;
+    const { author, title, content } = this.state;
 
     if (title === '') {
       this.setState({
@@ -126,7 +136,7 @@ class ComposeArticleForm extends React.Component {
       },
       body: JSON.stringify({
         article: {
-          author: profileData['user_info']['name'],
+          author: author,
           title: title,
           content: content,
         },
@@ -142,8 +152,10 @@ class ComposeArticleForm extends React.Component {
     const {
       isLoggedIn,
       hasCurrentUserLoaded,
+      author,
       title,
       content,
+      hasAuthorInputError,
       hasTitleInputError,
       hasContentInputError,
       hasSubmitted,
@@ -174,6 +186,19 @@ class ComposeArticleForm extends React.Component {
               onSubmit={this.handleSubmit}
               noValidate
             >
+              <TextField
+                variant='outlined'
+                margin='normal'
+                required
+                fullWidth
+                id='author'
+                label='Article author'
+                name='author'
+                autoFocus
+                value={author}
+                error={hasAuthorInputError}
+                onChange={this.handleAuthorChange}
+              />
               <TextField
                 variant='outlined'
                 margin='normal'
