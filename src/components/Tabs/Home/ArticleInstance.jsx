@@ -38,7 +38,7 @@ export default function ArticleInstance(props) {
           </CardContent>
           <CardActions>
             <Button size='small' color='primary' href={articleURL}>
-              View
+              Admin
             </Button>
           </CardActions>
         </Card>

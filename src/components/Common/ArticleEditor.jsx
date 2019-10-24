@@ -35,17 +35,27 @@ class ArticleEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      author: '',
       title: '',
       content: '',
       articleID: this.props.match.params.id,
+      hasAuthorInputError: false,
       hasTitleInputError: false,
       hasContentInputError: false,
       hasSubmitted: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAuthorChange = this.handleAuthorChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
+  }
+
+  handleAuthorChange(event) {
+    this.setState({
+      hasAuthorInputError: false,
+      author: event.target.value.trim(),
+    });
   }
 
   handleTitleChange(event) {
@@ -71,6 +81,7 @@ class ArticleEditor extends React.Component {
           isLoaded: true,
           articleID: this.props.match.params.id,
           responseStatus: result['status'],
+          author: result['article']['author'],
           title: result['article']['title'],
           content: result['article']['content'],
         });
@@ -80,7 +91,14 @@ class ArticleEditor extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { title, content, articleID } = this.state;
+    const { author, title, content, articleID } = this.state;
+
+    if (author === '') {
+      this.setState({
+        hasAuthorInputError: true,
+      });
+      return;
+    }
 
     if (title === '') {
       this.setState({
@@ -106,7 +124,7 @@ class ArticleEditor extends React.Component {
         },
         body: JSON.stringify({
           article: {
-            author: 'author_react',
+            author: author,
             title: title,
             content: content,
           },
@@ -121,10 +139,12 @@ class ArticleEditor extends React.Component {
 
   render() {
     const {
+      author,
       title,
       content,
       isLoaded,
       articleID,
+      hasAuthorInputError,
       hasTitleInputError,
       hasContentInputError,
       hasSubmitted,
@@ -152,6 +172,19 @@ class ArticleEditor extends React.Component {
               onSubmit={this.handleSubmit}
               noValidate
             >
+              <TextField
+                variant='outlined'
+                margin='normal'
+                required
+                fullWidth
+                id='title'
+                label='Article Author'
+                name='author'
+                autoFocus
+                value={author}
+                error={hasAuthorInputError}
+                onChange={this.handleAuthorChange}
+              />
               <TextField
                 variant='outlined'
                 margin='normal'
