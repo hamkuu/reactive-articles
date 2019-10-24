@@ -88,15 +88,15 @@ class ArticlesViewer extends React.Component {
 
     if (!isLoaded) {
       this.fetchArticleData(articleID);
-      return <h2>fetch article with ID {articleID}...</h2>;
+      return <MessageBox message='fetching the article...'></MessageBox>;
     }
 
     if (!responseStatus) {
-      return <h2>Article not found.</h2>;
+      return <MessageBox message='Article not found.'></MessageBox>;
     }
 
     if (isDeleted) {
-      return <h2>article with ID {articleID} has been removed.</h2>;
+      return <MessageBox message='Article has been removed.'></MessageBox>;
     }
 
     return (
