@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { retrieveIsLoggedInCookie } from '../../helpers/universalCookie';
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -22,12 +24,19 @@ class ArticlesViewer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoggedIn: false,
       responseStatus: false,
       isLoaded: false,
       isDeleted: false,
       articleID: this.props.match.params.id,
       article: [],
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      isLoggedIn: retrieveIsLoggedInCookie(),
+    });
   }
 
   fetchArticleData(id) {
@@ -62,6 +71,7 @@ class ArticlesViewer extends React.Component {
   render() {
     const { classes } = this.props;
     const {
+      isLoggedIn,
       responseStatus,
       isLoaded,
       isDeleted,
@@ -69,6 +79,10 @@ class ArticlesViewer extends React.Component {
       article,
     } = this.state;
     const editArticleURL = `/editarticles/${articleID}`;
+
+    if (!isLoggedIn) {
+      return <h1>Please login first.</h1>;
+    }
 
     if (!isLoaded) {
       this.fetchArticleData(articleID);
