@@ -102,7 +102,7 @@ class ComposeArticleForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { title, content } = this.state;
+    const { title, content, profileData } = this.state;
 
     if (title === '') {
       this.setState({
@@ -126,7 +126,7 @@ class ComposeArticleForm extends React.Component {
       },
       body: JSON.stringify({
         article: {
-          author: 'author_react',
+          author: profileData['user_info']['name'],
           title: title,
           content: content,
         },

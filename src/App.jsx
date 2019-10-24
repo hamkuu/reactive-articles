@@ -21,6 +21,7 @@ import ArticlesList from './components/Tabs/Home/ArticlesList';
 import ComposeArticleForm from './components/Tabs/ComposeArticle/ComposeArticleForm';
 
 import LoginPage from './components/Account/LoginPage';
+import SignUpForm from './components/Account/SignUpForm';
 
 import './App.css';
 
@@ -31,6 +32,8 @@ function AppLayout() {
 
       <main>
         <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/signup' component={SignUpForm} />
+
         <Route exact path='/newarticle' component={ComposeArticleForm} />
         <Route path='/editarticles/:id' component={ArticleEditor} />
         <Route path='/articles/:id' component={ArticleViewer} />
