@@ -205,7 +205,7 @@ class LoginForm extends React.Component {
     }
     return (
       <Switch>
-        <Redirect to='/profile' />
+        <Redirect to='/' />
       </Switch>
     );
   }

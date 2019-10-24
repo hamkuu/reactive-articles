@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+import { retrieveIsLoggedInCookie } from '../../../helpers/universalCookie';
+
 const styles = theme => ({
   '@global': {
     body: {
@@ -35,6 +37,8 @@ class ComposeArticleForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoggedIn: false,
+      hasCurrentUserLoaded: false,
       title: '',
       content: '',
       hasTitleInputError: false,
@@ -45,6 +49,38 @@ class ComposeArticleForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      isLoggedIn: retrieveIsLoggedInCookie(),
+    });
+  }
+
+  fetchProfileData() {
+    const profileRequestUrl = `${process.env.REACT_APP_API_URL_BASE}/api/v1/user.info`;
+
+    fetch(profileRequestUrl, {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then(res => res.json())
+      .then(response => {
+        if (response.status) {
+          console.log(response);
+          this.setState({
+            hasCurrentUserLoaded: true,
+            profileData: response,
+            errorMessage: null,
+          });
+        } else {
+          this.setState({
+            hasCurrentUserLoaded: true,
+            profileData: null,
+            errorMessage: response.message,
+          });
+        }
+      });
   }
 
   handleTitleChange(event) {
@@ -65,7 +101,6 @@ class ComposeArticleForm extends React.Component {
     event.preventDefault();
 
     const { title, content } = this.state;
-    // const { setAppLogInState, setAppLogOutState } = this.props;
 
     console.log(title);
     console.log(content);
@@ -106,6 +141,8 @@ class ComposeArticleForm extends React.Component {
 
   render() {
     const {
+      isLoggedIn,
+      hasCurrentUserLoaded,
       title,
       content,
       hasTitleInputError,
@@ -114,8 +151,16 @@ class ComposeArticleForm extends React.Component {
     } = this.state;
     const { classes } = this.props;
 
+    if (!isLoggedIn) {
+      return <h1>Please login first.</h1>;
+    }
+
     if (hasSubmitted) {
       return <h2>submitted.</h2>;
+    }
+
+    if (!hasCurrentUserLoaded) {
+      this.fetchProfileData();
     }
 
     return (
