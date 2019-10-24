@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+import MessageBox from '../Common/MessageBox';
+
 const styles = theme => ({
   '@global': {
     body: {
@@ -157,7 +159,7 @@ class ArticleEditor extends React.Component {
     }
 
     if (hasSubmitted) {
-      return <h2>submitted.</h2>;
+      return <MessageBox message='Article submitted.'></MessageBox>;
     }
 
     return (

@@ -8,6 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { retrieveIsLoggedInCookie } from '../../../helpers/universalCookie';
 
+import MessageBox from '../../Common/MessageBox';
+
 const styles = theme => ({
   '@global': {
     body: {
@@ -102,9 +104,6 @@ class ComposeArticleForm extends React.Component {
 
     const { title, content } = this.state;
 
-    console.log(title);
-    console.log(content);
-
     if (title === '') {
       this.setState({
         hasTitleInputError: true,
@@ -152,11 +151,11 @@ class ComposeArticleForm extends React.Component {
     const { classes } = this.props;
 
     if (!isLoggedIn) {
-      return <h1>Please login first.</h1>;
+      return <MessageBox message='Please login first.'></MessageBox>;
     }
 
     if (hasSubmitted) {
-      return <h2>submitted.</h2>;
+      return <MessageBox message='Article has been submitted.'></MessageBox>;
     }
 
     if (!hasCurrentUserLoaded) {

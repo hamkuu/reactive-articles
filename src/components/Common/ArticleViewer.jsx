@@ -11,6 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { retrieveIsLoggedInCookie } from '../../helpers/universalCookie';
 
+import MessageBox from '../Common/MessageBox';
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -81,7 +83,7 @@ class ArticlesViewer extends React.Component {
     const editArticleURL = `/editarticles/${articleID}`;
 
     if (!isLoggedIn) {
-      return <h1>Please login first.</h1>;
+      return <MessageBox message='Please login first.'></MessageBox>;
     }
 
     if (!isLoaded) {
